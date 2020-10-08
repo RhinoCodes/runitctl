@@ -1,0 +1,17 @@
+#!/bin/bash
+
+service_directory="/etc/sv" # Define where services are stored
+run_directory="/var/service" # Defines where to symlink the service
+if [[ $1 == enable ]]
+then	
+	echo "Symlinking $service_directory/$2 to $run_directory/$2..."
+	ln -sf $service_directory/$2 $run_directory/ # Add Symlink that starts service
+	echo "$2 Enabled"
+elif [[ $1 == disable ]]
+then
+	echo "Removing symlink $run_directory/$2"
+	rm -rf $run_directory/$2 # Remove Symlink that starts service 
+elif [[ $1 == --help ]] || [[ $1 == "" ]]
+then
+	echo "Usage: runitctl [enable,disable] {service}" && echo "    * enable: Enables a service" && echo "    * disable: Disables a service" && echo && echo "runitctl is a simple systemctl alternative for runit, just edit the file and change some variables depending on your distro"
+fi
